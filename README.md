@@ -1,3 +1,13 @@
+## Alat yang akan saya gunakan untuk mengerjakan ide:
+> 
+Database pokemon
+splite3
+datetime
+random
+asyncio
+
+## Proyek ini akan berisi:
+> 
 Bot discord bermain pokemon dengan beberapa fitur
 PvP (dengan Bot atau dengan Player)
 Tangkap pokemon(Catch, sell, Inventory)
