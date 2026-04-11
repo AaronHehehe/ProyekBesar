@@ -1,0 +1,11 @@
+Bot discord bermain pokemon dengan beberapa fitur
+PvP (dengan Bot atau dengan Player)
+Tangkap pokemon(Catch, sell, Inventory)
+Dengan sistem level
+POkemon starter
+Sistem Money(uang)
+Dengan sistem Trade
+Dengan sistem Area Atau Location(bisa menjelajah dan memperbesar kemungkinan dapat pokemon di daerah area tsb.)
+Ada Pokedex
+Memberi makan
+
