@@ -6,7 +6,7 @@ datetime
 random
 asyncio
 discord
-
+csv
 ## Proyek ini akan berisi:
 >Bot discord bermain pokemon dengan beberapa fitur:
 >PvP (dengan Bot atau dengan Player dan dengan sistem effective contoh:air kuat lawan api)
