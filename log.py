@@ -1,34 +1,71 @@
-import csv
 import sqlite3
-
-def create_table(cursor, table_name, columns):
-    columns_str = ', '.join(columns)
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_str})")
-
-def insert_data(cursor, table_name, columns, data):
-    placeholders = ', '.join(['?' for _ in range(len(columns))])
-    cursor.executemany(f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES ({placeholders})", data)
-
-def csv_to_sqlite(csv_file, db_file, table_name, columns):
-    conn = sqlite3.connect(db_file)
+def init_user_table():
+    conn = sqlite3.connect("pokemon.db")
     cursor = conn.cursor()
 
-    create_table(cursor, table_name, columns)
-
-    with open(csv_file, 'r', newline='', encoding='utf-8') as csvfile:
-        csvreader = csv.reader(csvfile)
-        next(csvreader)  # Lewati header
-        data = [row for row in csvreader]
-
-    insert_data(cursor, table_name, columns, data)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_pokemon (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT,
+        pokemon_name TEXT,
+        level INTEGER,
+        caught_at TEXT
+    )
+    """)
 
     conn.commit()
     conn.close()
 
-# Contoh penggunaan:
-csv_file = 'Pokemon.csv'
-db_file = 'pokemon.db'
-table_name = 'Pokemon'
-columns = 'Number,Name,Type1,Type2,Total,HP,Attack,Defense,SpAtk,SpDef,Speed,Generation,Legendary'.split(',')  # Ganti dengan nama kolom sebenarnya dari CSV Anda
+init_user_table()
 
-csv_to_sqlite(csv_file, db_file, table_name, columns)
+def add_bonus_columns():
+    conn = sqlite3.connect("pokemon.db")
+    cursor = conn.cursor()
+
+    columns = ["bonus_hp", "bonus_atk", "bonus_def", "bonus_spatk", "bonus_spdef", "bonus_speed"]
+
+    for col in columns:
+        try:
+            cursor.execute(f"ALTER TABLE user_pokemon ADD COLUMN {col} INTEGER DEFAULT 0")
+        except:
+            pass  # kolom sudah ada
+
+    conn.commit()
+    conn.close()
+
+add_bonus_columns()
+
+def init_player_table():
+    conn = sqlite3.connect("pokemon.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS player (
+            user_id TEXT PRIMARY KEY,
+            level INTEGER DEFAULT 1,
+            exp INTEGER DEFAULT 0
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+init_player_table()
+
+def init_item_table():
+    conn = sqlite3.connect("pokemon.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_items (
+        user_id TEXT,
+        item_name TEXT,
+        amount INTEGER DEFAULT 0,
+        PRIMARY KEY (user_id, item_name)
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+init_item_table()
